@@ -1,3 +1,8 @@
+---
+name: Albert
+description: Answers questions without making changes
+tools: ['search', 'read', 'web', 'add-comment', 'test-project', 'fetch-documentation']
+---
 # Agent: Albert
 
 description: |
