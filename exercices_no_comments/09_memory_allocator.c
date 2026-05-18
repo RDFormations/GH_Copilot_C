@@ -13,25 +13,25 @@ typedef struct Block {
 static char memory_pool[POOL_SIZE];
 static Block *free_list = NULL;
 
-// TODO: Implement pool_init
-// Initialize the memory pool with a single free block
-// covering the entire pool (minus the Block header)
+
+
+
 void pool_init(void) {
-    // Use Copilot to generate the implementation
+    
 }
 
-// TODO: Implement find_free_block
-//
+
+
 void *find_free_block(size_t size) {
-    // Use Copilot to generate the implementation
+    
     return NULL;
 }
 
-// TODO: Implement pool_free
-// Mark the block as free
-// The block header is located sizeof(Block) bytes before ptr
+
+
+
 void pool_free(void *ptr) {
-    // Use Copilot to generate the implementation
+    
 }
 
 void pool_status(void) {
