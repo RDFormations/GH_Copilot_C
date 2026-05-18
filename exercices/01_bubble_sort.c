@@ -1,10 +1,20 @@
 #include <stdio.h>
 
 // TODO: Implement bubble_sort
-// Tri a bulles sur un tableau d'entiers en ordre croissant
-// Modifie le tableau en place
+// implement the bubble sort algorithm
 void bubble_sort(int arr[], int size) {
-    // Use Copilot to generate the implementation
+
+	int temp;
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - i - 1; j++) {
+			if (arr[j] > arr[j + 1]) {
+				// swap arr[j] and arr[j + 1]
+				temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+		}
+	}
 }
 
 void print_array(int arr[], int size) {
@@ -22,9 +32,9 @@ int main(void) {
     print_array(arr, size);
 
     bubble_sort(arr, size);
-
     printf("Tableau apres tri : ");
     print_array(arr, size);
 
     return 0;
 }
+

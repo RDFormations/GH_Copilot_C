@@ -2,39 +2,60 @@
 #include <stdlib.h>
 #include <string.h>
 
+// Remove trailing newline from buffer
+static void trim_newline(char *buffer) {
+    size_t len = strlen(buffer);
+    if (len > 0 && buffer[len - 1] == '\n')
+        buffer[len - 1] = '\0';
+}
+
+// Resize the lines array if capacity is reached
+static int resize_if_needed(char ***lines, int *capacity, int count) {
+    if (count >= *capacity) {
+        *capacity *= 2;
+        char **tmp = realloc(*lines, sizeof(char *) * (*capacity));
+        if (tmp == NULL)
+            return 0;
+        *lines = tmp;
+    }
+    return 1;
+}
+
+// Add a line to the array
+static int add_line(char ***lines, int count, const char *buffer) {
+    (*lines)[count] = strdup(buffer);
+    if ((*lines)[count] == NULL)
+        return 0;
+    return 1;
+}
+
 // Read a text file line by line, store each line in a dynamic
 // array of strings, return the number of lines read
 // Returns -1 on file open error
+
 int read_lines(const char *filename, char ***lines) {
     FILE *f = fopen(filename, "r");
     if (f == NULL)
         return -1;
 
     int capacity = 16;
-    int count = 0;
     *lines = malloc(sizeof(char *) * capacity);
     if (*lines == NULL) {
-        fclose(f);
+		fclose(f);
         return -1;
     }
 
+	int count = 0;
     char buffer[1024];
     while (fgets(buffer, sizeof(buffer), f) != NULL) {
-        size_t len = strlen(buffer);
-        if (len > 0 && buffer[len - 1] == '\n')
-            buffer[len - 1] = '\0';
+        trim_newline(buffer);
 
-        if (count >= capacity) {
-            capacity *= 2;
-            char **tmp = realloc(*lines, sizeof(char *) * capacity);
-            if (tmp == NULL) {
-                fclose(f);
-                return count;
-            }
-            *lines = tmp;
+        if (!resize_if_needed(lines, &capacity, count)) {
+            fclose(f);
+            return count;
         }
-        (*lines)[count] = strdup(buffer);
-        if ((*lines)[count] == NULL) {
+
+        if (!add_line(lines, count, buffer)) {
             fclose(f);
             return count;
         }

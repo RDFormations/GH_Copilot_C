@@ -23,24 +23,30 @@ void pool_init(void) {
 // This function is part of a custom memory allocator
 // It searches for a free block of sufficient size in the free list
 // Uses the first-fit strategy
+// Put Magic number at the end of the allocated block to detect buffer overflows
 void *find_free_block(size_t size) {
-    Block *current = free_list;
-    while (current != NULL) {
-        if (current->free && current->size >= size) {
-            if (current->size > size + sizeof(Block) + 8) {
-                Block *new_block = (Block *)((char *)current + sizeof(Block) + size);
-                new_block->size = current->size - size - sizeof(Block);
-                new_block->free = 1;
-                new_block->next = current->next;
-                current->next = new_block;
-                current->size = size;
-            }
-            current->free = 0;
-            return (char *)current + sizeof(Block);
-        }
-        current = current->next;
-    }
-    return NULL;
+	Block *current = free_list;
+	while (current != NULL) {
+		if (current->free && current->size >= size) {
+			// If the block is larger than needed, split it
+			if (current->size > size + sizeof(Block)) {
+				Block *new_block = (Block *)((char *)current + sizeof(Block) + size);
+				new_block->size = current->size - size - sizeof(Block);
+				new_block->free = 1;
+				new_block->next = current->next;
+
+				current->size = size;
+				current->next = new_block;
+
+				*((int *)((char *)current + sizeof(Block) + size)) = 0xDEADBEEF;
+
+			}
+			current->free = 0;
+			return (char *)current + sizeof(Block);
+		}
+		current = current->next;
+	}
+	return NULL; // No suitable block found
 }
 
 void pool_free(void *ptr) {

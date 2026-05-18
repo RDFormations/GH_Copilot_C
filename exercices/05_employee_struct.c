@@ -12,8 +12,14 @@ typedef struct {
 // Allocate and initialize a new Employee
 // Returns NULL on allocation failure
 Employee *employee_create(const char *name, int age, float salary) {
-    // Use Copilot to generate the implementation
-    return NULL;
+	Employee *emp = malloc(sizeof(Employee));
+	if (emp == NULL) {
+	return NULL;
+	}
+	strcpy(emp->name, name);
+	emp->age = age;
+	emp->salary = salary;
+	return emp;
 }
 
 // TODO: Implement employee_destroy
