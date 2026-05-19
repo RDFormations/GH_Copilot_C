@@ -8,40 +8,19 @@ typedef struct {
     float salary;
 } Employee;
 
-
-
-
 Employee *employee_create(const char *name, int age, float salary) {
-    
-    return NULL;
 }
-
-
 
 void employee_destroy(Employee *emp) {
-    
 }
-
-
 
 void employee_print(const Employee *emp) {
-    
 }
-
-
-
 
 int employee_serialize(const Employee *emp, FILE *out) {
-    
-    return -1;
 }
 
-
-
-
 Employee *employee_deserialize(FILE *in) {
-    
-    return NULL;
 }
 
 int main(void) {

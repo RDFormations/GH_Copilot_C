@@ -14,24 +14,13 @@ static char memory_pool[POOL_SIZE];
 static Block *free_list = NULL;
 
 
-
-
 void pool_init(void) {
-    
 }
 
-
-
-void *find_free_block(size_t size) {
-    
-    return NULL;
+void *allocate_free_block(size_t size) {
 }
-
-
-
 
 void pool_free(void *ptr) {
-    
 }
 
 void pool_status(void) {

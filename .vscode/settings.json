@@ -6,5 +6,10 @@
 		"**/.DS_Store": true,
 		"**/Thumbs.db": true
 	},
-	"hide-files.files": []
+	"hide-files.files": [],
+		"github.copilot.chat.commitMessageGeneration.instructions": [
+  {
+    "text": "Generate commit messages using gitmoji"
+  }
+	]
 }

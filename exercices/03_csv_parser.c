@@ -8,38 +8,14 @@ typedef struct {
     float salary;
 } Employee;
 
-
-
-
-
 char **parse_csv_line(const char *line, int *count) {
-    
-    *count = 0;
-    return NULL;
 }
-
-
-
-
-Employee token_to_employee(char **tokens) {
-    Employee emp = {0};
-    
-    return emp;
-}
-
-
-
-
 
 int insert_employee(Employee **employees, int *size, int *capacity, Employee emp) {
-    
-    return -1;
 }
 
 void free_tokens(char **tokens, int count) {
-    for (int i = 0; i < count; i++)
-        free(tokens[i]);
-    free(tokens);
+
 }
 
 int main(void) {
