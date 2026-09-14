@@ -1,24 +1,44 @@
-# Solution — Completions inline et contexte
+# Solution — Inline completions and context
 
-> **Exercice** : [Revoir l'énoncé](../exercices/en/exercice-02-completions-inline.md)
+> **Exercise** : [Revoir l'énoncé](../exercices/en/exercice-02-completions-inline.md)
 
-## Solution détaillée
+## Context
 
-### Étape 2 — Stub A vague
+Precise comments significantly improve the quality of generated suggestions.
 
-**Analyse :** avec `// trier`, Copilot propose souvent un `.sort()` générique sans précision sur l'algorithme ni l'immutabilité.
+## Detailed solution
 
-### Étape 3 — Prompt structuré (stub A)
+### Step 2 — Vague stub A
 
-**Vérification :** algorithme de tri explicite (insertion ou bubble), copie non mutante, complexité mentionnée.
+**Analysis :** with a vague comment, Copilot often suggests an incomplete algorithm — insufficient.
 
-### Étape 5 — Stub B recherche dichotomique
+### Step 3 — Structured prompt (stub A)
 
-**Corps type :** boucle while avec indices gauche/droite, retourne -1 si non trouvé.
+```c
+/**
+ * QUOI : Tri par insertion sur tableau de nombres
+ * COMMENT : parcours O(n²), copie immuable
+ * CONTRAINTES : retourne 0 si OK, -1 si erreur
+ */
+int insertion_sort(const int* values, int count, int* out);
+```
+
+**Verification :** correct sort algorithm with immutable copy.
+
+### Step 5 — Binary search stub B
+
+**Typical body :** search on sorted array, return index or -1.
 
 ## Common pitfalls
 
-| Symptôme | Piste |
+| Symptom | Fix |
 | -------- | ----- |
-| Tri in-place non voulu | Préciser « copie immuable » dans CONTRAINTES |
-| Index -1 absent | Expliciter dans le commentaire |
+| Sort mutates source array | Specify immutable copy in COMMENT |
+| Missing -1 return | Specify sorted array in COMMENT |
+
+
+## Documentation
+
+| Topic | Link |
+| ----- | ---- |
+| Best practices | [Best practices](https://docs.github.com/copilot/get-started/best-practices-for-using-github-copilot) |

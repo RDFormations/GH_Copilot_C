@@ -1,6 +1,6 @@
 # Exercices — Chat and interaction modes
 
-> **Context** — An SLA calculation contains a bug. Tests fail: deadline is sometimes before createdAt.
+> **Context** — A date calculation module contains a bug. Tests fail: deadline is sometimes before createdAt.
 
 ## Exercice — Ask then Edit on an SLA bug
 
@@ -8,13 +8,13 @@
 
 ### Instructions
 
-1. Create `src/date_calculator.c` avec l échantillon buggy :
+1. Create `src/date_utils.c` avec l échantillon buggy :
 
 ```c
 #include <time.h>
 
-time_t add_hours_to_date(time_t created_at, int priority_hours) {
- return created_at - (priority_hours * 3600); /* BUG */
+time_t calculate_sla_deadline(time_t created_at, int priority_hours) {
+    return created_at - (priority_hours * 3600); /* BUG */
 }
 ```
 

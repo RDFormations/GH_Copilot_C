@@ -15,7 +15,7 @@ Vérifiez que Copilot est opérationnel avant de poursuivre les modules suivants
 ### Étape 2 — Signature et commentaire
 
 ```c
-/** Formate un ID ticket : préfixe FB-, numéro sur 5 chiffres. */
+/** Formate un identifiant : préfixe ID-, numéro sur 5 chiffres. */
 char* format_id(int id); {
 ```
 
@@ -28,7 +28,7 @@ char* format_id(int id); {
 | Symptôme | Piste |
 | -------- | ----- |
 | Pas de suggestion | Vérifier licence Copilot et connexion GitHub |
-| Format incorrect (FB-42) | Préciser zéros à gauche dans le commentaire |
+| Format incorrect (ID-42) | Préciser zéros à gauche dans le commentaire |
 
 
 ## Documentation

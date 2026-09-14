@@ -15,7 +15,7 @@ Verify Copilot works before continuing to the next modules.
 ### Step 2 — Signature and comment
 
 ```c
-/** Format ticket ID: FB- prefix, 5-digit zero-padded number. */
+/** Format an ID: ID- prefix, 5-digit zero-padded number. */
 char* format_id(int id); {
 ```
 
@@ -28,7 +28,7 @@ char* format_id(int id); {
 | Symptom | Fix |
 | -------- | ----- |
 | No suggestion | Check Copilot license and GitHub sign-in |
-| Wrong format (FB-42) | Specify zero-padding in comment |
+| Wrong format (ID-42) | Specify zero-padding in comment |
 
 
 ## Documentation
