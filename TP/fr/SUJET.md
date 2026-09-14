@@ -1,4 +1,4 @@
-# TP — mini_push_swap
+# TP — mini_push_swap (C)
 
 ## Contexte
 
@@ -112,7 +112,7 @@ Exemples :
 
 ```
 TP/
-├── SUJET.md
+├── fr/SUJET.md
 ├── Makefile
 ├── include/
 │   └── stack.h
