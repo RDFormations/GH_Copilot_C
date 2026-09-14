@@ -36,12 +36,12 @@ Chaque module comprend un **lesson**, des **exercises** et une **solution**.
 
 ```mermaid
 flowchart LR
- A[Install] --> B[Inline]
- B --> C[Chat]
- C --> D[Instructions]
- D --> S[Skills]
- S --> E[Agent]
- E --> F[Review]
+    A[Install] --> B[Inline]
+    B --> C[Chat]
+    C --> D[Instructions]
+    D --> S[Skills]
+    S --> E[Agent]
+    E --> F[Review]
 ```
 
 **Next step :** [Module 1 — Introduction](/formations/en-github-copilot-c/module-01-introduction)
@@ -66,79 +66,82 @@ This module covers GitHub Copilot basics for **C** development: what the tool is
 > [!note] Definition — GitHub Copilot
 > AI assistant in the editor. Analyzes **context** (files, comments, selection) and offers real-time **suggestions**.
 
-## 1.1 What is GitHub Copilot ?
+## 1.1 What is GitHub Copilot?
 
-GitHub Copilot est un assistant de programmation basé sur l'intelligence artificielle, développé par GitHub en collaboration avec OpenAI. Il fonctionne comme un **pair-programmer virtuel** intégré directement dans l'éditeur de code.
+GitHub Copilot is an AI-powered programming assistant developed by GitHub in collaboration with OpenAI. It works as a **virtual pair-programmer** integrated directly into the code editor.
 
-**How it works :**
+**How it works:**
 
-- Copilot analyse le contexte du code en cours d'écriture (fichiers ouverts, commentaires, noms de variables)
-- Il génère des suggestions de code en temps réel, directement dans l'éditeur
-- Le modèle sous-jacent a été entraîné sur des milliards de lignes de code provenant de dépôts publics GitHub
-- Il est particulièrement efficace en C grâce à la quantité massive de code C disponible en open source (Linux kernel, GNU tools, etc.)
+- Copilot analyzes the context of code being written (open files, comments, variable names)
+- It generates code suggestions in real time, directly in the editor
+- The underlying model was trained on billions of lines of code from public GitHub repositories
+- It is particularly effective in C thanks to the massive amount of open source C code available (Linux kernel, GNU tools, etc.)
 
-**What Copilot is not :**
+**What Copilot is not:**
 
-- Ce n'est pas un compilateur ni un vérificateur de code
-- Il ne garantit pas que le code généré est correct ou sécurisé
-- Il ne remplace pas la compréhension du langage C par le développeur
+- It is not a compiler or code verifier
+- It does not guarantee that generated code is correct or secure
+- It does not replace the developer's understanding of the C language
 
-## 1.2 Les différentes versions — du complétion à l'agent
+## 1.2 The different versions
 
-GitHub Copilot propose plusieurs **niveaux d'autonomie**. La formation s'articule autour du mode **Agent** et de sa personnalisation (**Instructions**, **Skills**), tout en conservant les **completions inline** pour l'écriture au fil de l'eau.
+| Version | Description | Primary use |
+|---------|-------------|-------------|
+| **Copilot (inline)** | Code suggestions directly in the editor | Day-to-day code writing |
+| **Copilot Chat** | Integrated conversational interface | Questions, explanations, refactoring |
+| **Copilot CLI** | Command-line assistant | Shell commands, compilation, debugging |
 
-| Version | Niveau d'autonomie | Description | Usage principal |
-| -------------------- | ------------------ | ---------------------------------------------- | --------------------------------------- |
-| **Copilot (inline)** | Faible | Suggestions de code directement dans l'éditeur | Complétion au quotidien, boilerplate |
-| **Copilot Chat** | Moyen | Conversation (Ask, Edit, Plan) | Questions, explications, refactoring |
-| **Mode Agent** | Élevé | Planifie, modifie plusieurs fichiers, exécute | Tâches multi-fichiers, debug, migration |
-| **Copilot CLI** | Élevé | Agent en ligne de commande | Shell, compilation, CI, scripts |
+**Copilot inline** is the default mode: as soon as you type code, suggestions appear in gray. You can accept them with `Tab` or ignore them by continuing to type.
 
-**Copilot inline** reste le point d'entrée : dès qu'on tape du code, des suggestions apparaissent en gris (`Tab` pour accepter). Voir le **Module 2**.
+**Copilot Chat** allows you to have a conversation with the AI: explain code, request corrections, generate tests.
 
-**Copilot Chat** couvre Ask, Edit, Plan et Agent. Voir le **Module 3**.
+**Copilot CLI** helps build terminal commands:
 
-**Instructions, Skills et mode Agent** : voir les **Modules 4 et 5**.
-
-**Copilot CLI** (`gh copilot`) reprend la logique agentique hors de l'éditeur — utile pour compiler, lancer Valgrind ou enchaîner des commandes.
+```bash
+# Example: ask Copilot CLI how to compile with debug flags
+gh copilot suggest "compile main.c with debug symbols and all warnings"
+# Suggestion: gcc -g -Wall -Wextra -o main main.c
+```
 
 ## 1.3 Installation and configuration
 
-**Prerequisites :**
+**Prerequisites:**
 
-- Un compte GitHub avec un abonnement Copilot actif (Individual, Business ou Enterprise)
-- Visual Studio Code installé
-- Extension C/C++ de Microsoft (pour l'IntelliSense)
+- A GitHub account with an active Copilot subscription (Individual, Business, or Enterprise)
+- Visual Studio Code installed
+- Microsoft C/C++ extension (for IntelliSense)
 
-**Étapes d'installation :**
+**Installation steps:**
 
-1. Ouvrir VS Code
-2. Aller dans Extensions (`Ctrl + Shift + X`)
-3. Rechercher "GitHub Copilot" et installer l'extension
-4. Installer également "GitHub Copilot Chat"
-5. Se connecter à GitHub quand VS Code le demande
-6. Vérifier l'icône Copilot dans la barre de statut (en bas)
+1. Open VS Code
+2. Go to Extensions (`Ctrl + Shift + X`)
+3. Search for "GitHub Copilot" and install the extension
+4. Also install "GitHub Copilot Chat"
+5. Sign in to GitHub when VS Code prompts you
+6. Check for the Copilot icon in the status bar (bottom)
 
-**Vérification du fonctionnement :**
-Créer un fichier `test.c` et commencer à taper :
+**Verifying it works:**
+Create a `test.c` file and start typing:
 
 ```c
 #include <stdio.h>
 
-// Fonction qui affiche Hello World
+// Function that prints Hello World
 ```
 
-Si Copilot fonctionne, une suggestion devrait apparaître en gris pour compléter la fonction.
+If Copilot is working, a suggestion should appear in gray to complete the function.
 
-## 1.4 Interface et statistiques d'utilisation
+## 1.4 Interface and usage statistics
 
-Pour consulter les statistiques d'utilisation de Copilot :
+To view Copilot usage statistics:
 
-- Cliquer sur l'icône Copilot dans la barre de statut de VS Code
-- Accéder au tableau de bord via GitHub : `Settings > Copilot > Usage`
-- Les métriques disponibles : taux d'acceptation des suggestions, lignes de code générées, langages les plus utilisés
+- Click the Copilot icon in the VS Code status bar
+- Access the dashboard via GitHub: `Settings > Copilot > Usage`
+- Available metrics: suggestion acceptance rate, lines of code generated, most used languages
 
-En entreprise (Copilot Business/Enterprise), les administrateurs ont accès à un dashboard détaillé montrant le pourcentage d'utilisation par équipe et par développeur.
+In enterprise environments (Copilot Business/Enterprise), administrators have access to a detailed dashboard showing usage percentage by team and developer.
+
+---
 
 ---
 
@@ -159,57 +162,55 @@ In [module 1](/formations/en-github-copilot-c/module-01-introduction) we set up 
 
 ---
 
-Les **completions inline** sont le mode le plus utilisé au quotidien. Une fois les **Instructions** configurées (Module 4), elles produisent des suggestions alignées sur les standards du projet C.
-
 > [!note] Definition — Inline completion
 > Suggestion shown **in grey** while typing. Accept (`Tab`), reject (`Esc`) or browse alternatives.
 
 ## 2.1 Essential keyboard shortcuts
 
-| Action | Raccourci (Windows/Linux) | Raccourci (Mac) |
-| -------------------------------- | ------------------------- | --------------- |
-| Accepter la suggestion | `Tab` | `Tab` |
-| Rejeter la suggestion | `Échap` | `Échap` |
-| Suggestion suivante | `Alt + ]` | `Option + ]` |
-| Suggestion précédente | `Alt + [` | `Option + [` |
-| Accepter le mot suivant | `Ctrl + →` | `Cmd + →` |
-| Déclencher manuellement | `Alt + \` | `Option + \` |
-| Ouvrir le panneau de suggestions | `Ctrl + Enter` | `Ctrl + Enter` |
+| Action | Shortcut (Windows/Linux) | Shortcut (Mac) |
+|--------|--------------------------|----------------|
+| Accept suggestion | `Tab` | `Tab` |
+| Reject suggestion | `Esc` | `Esc` |
+| Next suggestion | `Alt + ]` | `Option + ]` |
+| Previous suggestion | `Alt + [` | `Option + [` |
+| Accept next word | `Ctrl + →` | `Cmd + →` |
+| Trigger manually | `Alt + \` | `Option + \` |
+| Open suggestions panel | `Ctrl + Enter` | `Ctrl + Enter` |
 
-Le panneau de suggestions (`Ctrl + Enter`) ouvre une fenêtre avec jusqu'à 10 suggestions alternatives. Utile quand la première suggestion ne convient pas.
+The suggestions panel (`Ctrl + Enter`) opens a window with up to 10 alternative suggestions. Useful when the first suggestion doesn't fit.
 
 ## 2.2 Triggering suggestions
 
-### Commencer à taper une signature de fonction
+### Start typing a function signature
 
 ```c
 int calculate_factorial(int n)
 ```
 
-Copilot va proposer le corps de la fonction en se basant sur le nom explicite.
+Copilot will suggest the function body based on the explicit name.
 
-### Écrire un commentaire descriptif
+### Write a descriptive comment
 
 ```c
-// Tri à bulles sur un tableau d'entiers, retourne le tableau trié
+// Bubble sort on an array of integers, returns the sorted array
 void bubble_sort(int arr[], int size)
 ```
 
-Le commentaire guide Copilot sur l'algorithme attendu.
+The comment guides Copilot on the expected algorithm.
 
-### Créer une structure de données
+### Create a data structure
 
 ```c
 typedef struct {
- char name[50];
- int age;
- float salary;
+    char name[50];
+    int age;
+    float salary;
 } Employee;
 ```
 
-Après avoir défini la structure, Copilot pourra suggérer des fonctions de manipulation cohérentes (create, print, free, etc.).
+After defining the structure, Copilot can suggest consistent manipulation functions (create, print, free, etc.).
 
-### Nommer une variable de manière explicite
+### Name a variable explicitly
 
 ```c
 int max_retry_count = 3;
@@ -217,174 +218,149 @@ char *error_message = NULL;
 FILE *input_file = fopen("data.csv", "r");
 ```
 
-Des noms de variables clairs aident Copilot à comprendre l'intention du code.
+Clear variable names help Copilot understand the code's intent.
 
 ## 2.3 Context matters
 
-Copilot ne se base pas uniquement sur la ligne en cours. Il analyse un **contexte élargi** :
+Copilot doesn't rely solely on the current line. It analyzes a **broader context**:
 
-**Les fichiers ouverts dans l'éditeur :**
-Si vous avez un fichier `utils.h` ouvert avec des prototypes, Copilot les utilisera pour générer des implémentations cohérentes dans `utils.c`.
+**Open files in the editor:**
+If you have a `utils.h` file open with prototypes, Copilot will use them to generate consistent implementations in `utils.c`.
 
-**Les includes influencent les suggestions :**
+**Includes influence suggestions:**
 
 ```c
-#include <pthread.h> // Copilot va suggérer du code multithread
-#include <sys/socket.h> // Copilot va suggérer du code réseau
-#include <sqlite3.h> // Copilot va suggérer du code base de données
+#include <pthread.h>  // Copilot will suggest multithreaded code
+#include <sys/socket.h>  // Copilot will suggest network code
+#include <sqlite3.h>  // Copilot will suggest database code
 ```
 
-**Le code environnant guide la génération :**
-Si les fonctions précédentes utilisent un style particulier (gestion d'erreurs avec des codes de retour, allocation dynamique avec vérification), Copilot va reproduire ce pattern.
+**Surrounding code guides generation:**
+If previous functions use a particular style (error handling with return codes, dynamic allocation with verification), Copilot will reproduce that pattern.
 
 ```c
-// Si votre code existant fait ceci :
+// If your existing code does this:
 int *ptr = malloc(sizeof(int) * n);
 if (ptr == NULL) {
- fprintf(stderr, "Erreur allocation mémoire\n");
- return -1;
+    fprintf(stderr, "Memory allocation error\n");
+    return -1;
 }
 
-// Copilot va reproduire ce pattern de vérification dans les suggestions suivantes
+// Copilot will reproduce this verification pattern in subsequent suggestions
 ```
 
-## 2.4 La fenêtre de contexte (context window)
+---
 
-La **fenêtre de contexte** (ou _context window_) est la quantité maximale de texte — code, commentaires, historique de chat, instructions du projet — que le modèle peut prendre en compte **en une seule requête**.
+## 2.4 The art of the comment-prompt
 
-**Definition concrète :**
+In C, comments are the main lever for guiding Copilot. A well-written comment produces better quality code than a function name alone.
 
-- Tout ce que Copilot « voit » avant de répondre occupe cette fenêtre : fichiers ouverts, sélection, messages du chat, `@workspace`, instructions Copilot, etc.
-- Cette limite se mesure en **tokens** (morceaux de texte), pas en lignes de code. Une ligne C dense ou un long commentaire consomme plus qu'une ligne vide.
-- Au-delà de la limite, le contenu le plus ancien ou le moins prioritaire est **tronqué** : le modèle ne peut plus s'appuyer dessus, même s'il est encore visible dans votre éditeur.
-
-**Pourquoi c'est important :**
-
-| Conséquence | Explication |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Perte de contexte** | Un gros fichier + tout l'historique du chat peuvent faire « oublier » le début de la conversation ou des fichiers éloignés. |
-| **Suggestions moins cohérentes** | Si vos conventions (nommage, gestion d'erreurs) ne tiennent plus dans la fenêtre, Copilot revient à des patterns génériques appris sur tout GitHub. |
-| **Réponses incomplètes en Agent** | Sur un gros dépôt, l'agent ne charge pas tout le code d'un coup ; il doit cibler les bons fichiers. |
-| **Coût de qualité du prompt** | Chaque mot utile (commentaire précis, prototype dans le `.h`) remplace du bruit ; un contexte pertinent vaut mieux qu'un contexte volumineux. |
-
-**Best practices pour optimiser la fenêtre :**
-
-- Garder ouverts uniquement les fichiers **pertinents** pour la tâche en cours (ex. `utils.h` + `utils.c`, pas tout le projet).
-- Poser des questions **ciblées** dans le chat plutôt que de coller des milliers de lignes.
-- Utiliser `#file:path/to/file.c` pour un fichier précis plutôt que `#workspace` quand la question est locale.
-- Découper les grosses refontes en étapes (module par module) au lieu d'une seule demande globale.
-- Centraliser les règles du projet dans les **Instructions** (voir Module 4) plutôt que de les répéter à chaque message.
-
-## 2.5 L'art du commentaire-prompt
-
-En C, les commentaires sont le principal levier pour guider Copilot. Un commentaire bien rédigé produit un code de meilleure qualité qu'un nom de fonction seul.
-
-**Commentaire vague → résultat imprécis :**
+**Vague comment → imprecise result:**
 
 ```c
-// trier le tableau
+// sort the array
 ```
 
-**Commentaire précis → résultat ciblé :**
+**Precise comment → targeted result:**
 
 ```c
-// Tri par insertion sur un tableau d'entiers en ordre croissant
-// Complexité : O(n²) dans le pire cas, O(n) dans le meilleur cas
-// Modifie le tableau en place
+// Insertion sort on an array of integers in ascending order
+// Complexity: O(n²) worst case, O(n) best case
+// Modifies the array in place
 void insertion_sort(int arr[], int n)
 ```
 
-## 2.6 Principes de base
+## 2.5 Basic principles
 
-**Être spécifique et précis :**
+**Be specific and precise:**
 
 ```c
 // ❌ Vague
-// lire un fichier
+// read a file
 
-// ✅ Précis
-// Lire un fichier texte ligne par ligne, stocker chaque ligne dans un tableau
-// dynamique de chaînes, retourner le nombre de lignes lues
-// Retourne -1 en cas d'erreur d'ouverture
+// ✅ Precise
+// Read a text file line by line, store each line in a dynamic
+// array of strings, return the number of lines read
+// Returns -1 on file open error
 int read_lines(const char *filename, char ***lines)
 ```
 
-**Donner du contexte :**
+**Provide context:**
 
 ```c
-// Cette fonction fait partie d'un allocateur mémoire custom
-// Elle recherche un bloc libre de taille suffisante dans la free list
-// Utilise la stratégie first-fit
+// This function is part of a custom memory allocator
+// It searches for a free block of sufficient size in the free list
+// Uses the first-fit strategy
 void *find_free_block(size_t size)
 ```
 
-**Décomposer les problèmes complexes :**
-Plutôt que de demander une fonction monolithique, découper en étapes :
+**Break down complex problems:**
+Rather than requesting a monolithic function, split into steps:
 
 ```c
-// Étape 1 : Parser la ligne CSV en tokens séparés par des virgules
+// Step 1: Parse the CSV line into tokens separated by commas
 char **parse_csv_line(const char *line, int *count);
 
-// Étape 2 : Convertir les tokens en structure Employee
+// Step 2: Convert tokens to an Employee structure
 Employee token_to_employee(char **tokens);
 
-// Étape 3 : Insérer l'employé dans le tableau dynamique
+// Step 3: Insert the employee into the dynamic array
 int insert_employee(Employee **employees, int *size, int *capacity, Employee emp);
 ```
 
-**Itérer sur les suggestions :**
-Si la première suggestion ne convient pas, utiliser `Alt + ]` pour voir les alternatives, ou reformuler le commentaire.
+**Iterate on suggestions:**
+If the first suggestion doesn't fit, use `Alt + ]` to see alternatives, or rephrase the comment.
 
-## 2.7 Structure d'un bon prompt
+## 2.6 Structure of a good prompt
 
-Un prompt efficace pour Copilot suit la structure **Quoi / Comment / Contraintes** :
+An effective prompt for Copilot follows the **What / How / Constraints** structure:
 
 ```c
 /**
- * QUOI : Recherche un élément dans un tableau trié
- * COMMENT : Utilise la recherche dichotomique (binary search)
- * CONTRAINTES :
- * - Le tableau doit être trié en ordre croissant
- * - Retourne l'index de l'élément ou -1 si non trouvé
- * - Fonctionne pour des tableaux jusqu'à INT_MAX éléments
+ * WHAT: Search for an element in a sorted array
+ * HOW: Uses binary search
+ * CONSTRAINTS:
+ *   - The array must be sorted in ascending order
+ *   - Returns the element's index or -1 if not found
+ *   - Works for arrays up to INT_MAX elements
  */
 int binary_search(const int arr[], int size, int target)
 ```
 
-Autre exemple avec gestion mémoire :
+Another example with memory management:
 
 ```c
 /**
- * QUOI : Crée une copie profonde d'une liste chaînée
- * COMMENT : Parcours itératif avec allocation de nouveaux nœuds
- * CONTRAINTES :
- * - Retourne NULL si la liste source est NULL ou en cas d'erreur malloc
- * - L'appelant est responsable de libérer la copie avec free_list()
- * - Les données (char*) sont dupliquées avec strdup
+ * WHAT: Create a deep copy of a linked list
+ * HOW: Iterative traversal with allocation of new nodes
+ * CONSTRAINTS:
+ *   - Returns NULL if source list is NULL or on malloc failure
+ *   - The caller is responsible for freeing the copy with free_list()
+ *   - Data (char*) is duplicated with strdup
  */
 Node *deep_copy_list(const Node *head)
 ```
 
-## 2.8 Itération et raffinement
+## 2.7 Iteration and refinement
 
-**Accepter partiellement une suggestion :**
-Utiliser `Ctrl + →` (accepter mot par mot) quand le début de la suggestion est bon mais la suite diverge. Cela permet de garder le contrôle tout en profitant de l'assistance.
+**Partially accept a suggestion:**
+Use `Ctrl + →` (accept word by word) when the beginning of the suggestion is good but the rest diverges. This allows you to keep control while benefiting from the assistance.
 
-**Modifier et relancer pour affiner :**
+**Modify and retrigger to refine:**
 
 ```c
-// Premier essai - suggestion trop simple
-// Trier un tableau
-// → Copilot génère un bubble sort basique
+// First attempt - suggestion too simple
+// Sort an array
+// → Copilot generates a basic bubble sort
 
-// Deuxième essai - plus précis
-// Quicksort avec pivot médian de trois, partition de Lomuto
-// Gère les tableaux de taille < 10 avec insertion sort
+// Second attempt - more precise
+// Quicksort with median-of-three pivot, Lomuto partition
+// Handle arrays of size < 10 with insertion sort
 void quicksort(int arr[], int low, int high)
 ```
 
-**Combiner plusieurs suggestions :**
-Accepter une suggestion pour le squelette de la fonction, puis supprimer certaines parties et redemander à Copilot de les régénérer avec un commentaire plus spécifique.
+**Combine multiple suggestions:**
+Accept a suggestion for the function skeleton, then delete certain parts and ask Copilot to regenerate them with a more specific comment.
 
 ---
 
@@ -407,155 +383,108 @@ After [inline completions](/formations/en-github-copilot-c/module-02-completions
 
 ---
 
-## 3.1 Les modes du Chat — Ask, Edit, Plan, Agent
+## 3.1 Conversational interface
 
-Copilot Chat propose plusieurs **modes** selon le niveau d'autonomie souhaité. Ils partagent les **Instructions** du projet ; seuls **Agent** et partiellement **Ask** exploitent les **Skills** (voir Module 4).
+Open the Chat panel: `Ctrl + Shift + I` (or `Cmd + Shift + I` on Mac).
 
-| Mode | Autonomie | Comportement | Exemple en C |
-| ---------- | --------- | ------------------------------------------------- | ------------------------------------------------- |
-| **Ask** | Faible | Répond, explique, ne modifie pas les fichiers | « Explique cette gestion de free list » |
-| **Edit** | Moyenne | Modifie le code sélectionné ou le fichier actif | « Ajoute la vérification NULL sur ce malloc » |
-| **Plan** | Moyenne | Produit un plan détaillé avant d'agir | « Plan pour migrer ce module vers C11 _Generic » |
-| **Agent** | Élevée | Planifie, édite, exécute, itère | « Corrige les warnings -Wall sur tout src/ » |
+Copilot Chat allows you to ask questions in natural language directly in VS Code:
 
-**Ask** — mode par défaut pour comprendre du code sans risque de modification :
+**Examples of useful questions in C:**
 
-- Sélectionner un bloc, poser une question : « Pourquoi ce segfault ? »
-- Les Instructions s'appliquent (ex. réponse alignée sur vos conventions Doxygen)
+- "Explain what this function does"
+- "Why does this code cause a segfault?"
+- "How to implement a thread pool in C?"
+- "Generate unit tests for this function"
+- "Optimize this loop to reduce cache misses"
 
-**Edit** — pour des changements localisés :
+**Getting detailed explanations:**
+Select a complex code block then ask in the chat:
+"Explain this code step by step, particularly the memory management"
 
-- Sélectionner une fonction, demander « /fix » ou « ajoute la gestion d'erreur »
-- Plus rapide que l'Agent pour une modification ponctuelle
+## 3.2 Slash commands
 
-**Plan** — pour les grosses tâches :
+Slash commands are shortcuts for frequent actions:
 
-- « Refactorise le module parser en séparant lexer et tokenizer »
-- Copilot produit un plan numéroté ; vous validez avant passage en Agent
+| Command | Action |
+|---------|--------|
+| `/explain` | Explains the selected code |
+| `/fix` | Suggests a fix for the selected code |
+| `/tests` | Generates tests for the selected code |
+| `/doc` | Generates documentation (Doxygen comments in C) |
+| `/new` | Creates a new file/project |
+| `/clear` | Clears chat history |
 
-**Agent** — cœur de l'approche agentique (voir Module 4) :
-
-- Accès terminal, multi-fichiers, index sémantique
-- Active automatiquement les **Skills** pertinents
-- Idéal : debug Valgrind, migration API, ajout de tests sur tout un module
-
-## 3.2 Interface conversationnelle
-
-Ouvrir le panneau Chat : `Ctrl + Shift + I` (ou `Cmd + Shift + I` sur Mac).
-
-Copilot Chat permet de poser des questions en langage naturel directement dans VS Code :
-
-**Exemples de questions utiles en C :**
-
-- "Explique-moi ce que fait cette fonction"
-- "Pourquoi ce code provoque un segfault ?"
-- "Comment implémenter un pool de threads en C ?"
-- "Génère les tests unitaires pour cette fonction"
-- "Optimise cette boucle pour réduire les cache misses"
-
-**Obtenir des explications détaillées :**
-Sélectionner un bloc de code complexe puis demander dans le chat :
-"Explique ce code étape par étape, en particulier la gestion de la mémoire"
-
-## 3.3 Commandes slash
-
-Les commandes slash sont des raccourcis pour des actions fréquentes :
-
-| Commande | Action |
-| ---------- | --------------------------------------------------- |
-| `/explain` | Explique le code sélectionné |
-| `/fix` | Propose une correction pour le code sélectionné |
-| `/tests` | Génère des tests pour le code sélectionné |
-| `/doc` | Génère la documentation (commentaires Doxygen en C) |
-| `/new` | Crée un nouveau fichier/projet |
-| `/clear` | Efface l'historique du chat |
-
-**Exemple avec `/doc` sur une fonction C :**
+**Example with `/doc` on a C function:**
 
 ```c
-// Avant /doc
+// Before /doc
 int add_node(LinkedList *list, void *data, size_t data_size);
 
-// Après /doc - Copilot génère :
+// After /doc - Copilot generates:
 /**
- * @brief Ajoute un nouveau nœud en tête de la liste chaînée
- * @param list Pointeur vers la liste chaînée
- * @param data Pointeur vers les données à copier dans le nœud
- * @param data_size Taille en octets des données à copier
- * @return 0 en cas de succès, -1 en cas d'erreur d'allocation
+ * @brief Adds a new node at the head of the linked list
+ * @param list Pointer to the linked list
+ * @param data Pointer to the data to copy into the node
+ * @param data_size Size in bytes of the data to copy
+ * @return 0 on success, -1 on allocation error
  */
 int add_node(LinkedList *list, void *data, size_t data_size);
 ```
 
-## 3.4 Sélection de contexte
+## 3.3 Context selection
 
-**Sélectionner du code avant de poser une question :**
-Surligner un bloc de code, puis ouvrir le chat → Copilot comprend que la question porte sur ce code précis.
+**Select code before asking a question:**
+Highlight a code block, then open the chat → Copilot understands the question is about that specific code.
 
-## 3.5 Indexation sémantique du codebase
-
-L'**indexation sémantique** (ou _semantic codebase indexing_) permet à Copilot de **comprendre le sens** du code du projet, pas seulement de faire correspondre des mots-clés.
-
-**Principe :**
-
-- Le dépôt est analysé et transformé en représentations vectorielles (embeddings) : fonctions, structures, commentaires, relations entre fichiers.
-- Une question du type « Où est gérée l'allocation mémoire ? » ou `@workspace trouve les fuites potentielles` s'appuie sur cette index, pas sur une simple recherche texte `grep`.
-- Les résultats les plus **pertinents sémantiquement** sont injectés dans la fenêtre de contexte avant la génération de la réponse.
-
-**Différence avec le contexte « classique » :**
-
-| Approche | Limite |
-| --------------------------------- | ------------------------------------------------------------------------------------------------ |
-| Fichiers ouverts + ligne courante | Ne couvre que ce que vous avez sous les yeux |
-| Recherche par nom de symbole | Rate les implémentations sous un autre nom ou les patterns répétés |
-| **Index sémantique** | Retrouve du code par **intention** (« parsing CSV », « free list », « gestion d'erreur malloc ») |
-
-**Quand l'utiliser :**
-
-- Explorer un projet inconnu : `#workspace décris l'architecture et les modules principaux`
-- Refactoring transversal : retrouver toutes les fonctions qui dupliquent une logique
-- Debugging : localiser où une structure ou une API est utilisée sans connaître le nom exact
-
-**Best practices :**
-
-- Laisser l'indexation se terminer après un clone ou un gros pull (indicateur dans la barre de statut / paramètres Copilot).
-- Formuler des requêtes avec des **concepts** (« liste chaînée », « tri en place ») plutôt qu'un seul identifiant C.
-- Combiner index sémantique + `#file:path/to/file.c` : d'abord localiser avec `#workspace`, puis affiner sur le fichier trouvé.
-- Rappel : l'index alimente la fenêtre de contexte — rester précis évite de noyer le modèle sous trop d'extraits.
-
-## 3.6 Mode Agent en pratique
-
-Le **mode Agent** est le point d'application des **Skills** et **Instructions** configurés au Module 4.
-
-Copilot peut :
-
-- Exécuter des commandes terminal (`gcc`, `make`, `valgrind`, `cppcheck`)
-- Modifier plusieurs fichiers en séquence
-- Itérer jusqu'à résoudre un problème ou signaler un blocage
-
-**Exemple complet en C :**
+**Use `@workspace` to reference the project:**
 
 ```
-Mode Agent : « Corrige tous les memory leaks détectés par Valgrind dans ce projet »
-→ Copilot active le skill valgrind-audit (si présent)
-→ Applique les Instructions (vérification malloc, snake_case)
-→ Lance Valgrind, analyse la sortie, corrige les fichiers, recompile, vérifie
+@workspace How is the project structured? What are the main modules?
+@workspace Find all functions that allocate memory without freeing it
 ```
 
-**Best practices Agent :**
+**Use `@file` to target a specific file:**
 
-- Formuler un **objectif mesurable** (« 0 fuite Valgrind sur test_parser »)
-- Laisser l'indexation sémantique se terminer sur les gros dépôts
-- Vérifier manuellement le diff avant commit — l'agent accélère, il ne remplace pas la relecture
+```
+@file:src/parser.c Explain the parsing algorithm used here
+@file:include/types.h Generate initialization functions for each structure
+```
 
-## 3.7 Mode Cloud (aperçu)
+## 3.4 Plan, Agent, Chat, and Ask modes
 
-Le mode Cloud permet d'exécuter des tâches Copilot sur l'infrastructure GitHub :
+**Chat mode (default):**
+Classic question/answer conversation. Suggested code is not automatically applied.
 
-- Tâches longues qui tournent en arrière-plan
-- Pas besoin de garder VS Code ouvert
-- Résultats disponibles via notification ou PR
-- Utile pour des refactorings massifs ou des migrations de code
+**Ask mode:**
+Read-only mode. Copilot answers questions without proposing modifications. Ideal for understanding existing code.
+
+**Edit mode:**
+Copilot can directly modify open files. After describing what you want, it proposes modifications you can accept or reject.
+
+**Agent mode:**
+The most autonomous mode. Copilot can:
+
+- Execute terminal commands (compilation, tests)
+- Modify multiple files in sequence
+- Iterate until solving a problem
+
+Example in C:
+
+```
+Agent mode: "Fix all memory leaks detected by Valgrind in this project"
+→ Copilot runs Valgrind, analyzes the output, fixes the files, recompiles, verifies
+```
+
+## 3.5 Cloud mode (preview)
+
+Cloud mode allows executing Copilot tasks on GitHub infrastructure:
+
+- Long-running tasks that run in the background
+- No need to keep VS Code open
+- Results available via notification or PR
+- Useful for massive refactoring or code migrations
+
+---
 
 ---
 
@@ -637,9 +566,9 @@ File at the repository root (`.github/` folder). Copilot injects it in **every**
 ```
 .github/skills/
 └── lint-and-check/
- ├── SKILL.md
- ├── scripts/
- └── references/
+    ├── SKILL.md
+    ├── scripts/
+    └── references/
 ```
 
 **Example `SKILL.md`:**
@@ -743,103 +672,45 @@ In [module 4](/formations/en-github-copilot-c/module-04-agent-skills) we set glo
 
 ---
 
-## 5.1 Instructions path-specific
+## 5.1 Agents, Skills, Prompts, and Instructions
 
-Les concepts **Agent**, **Skill** et **Instruction** sont détaillés au **Module 4**. Ce module approfondit la **personnalisation par chemin**, les skills avancés, le commit et la code review.
-
-## 5.2 Instructions spécifiques par chemin (path-specific)
-
-Les instructions **globales** s'appliquent à tout le dépôt. Les instructions **path-specific** ne s'activent que lorsque Copilot travaille sur des fichiers dont le chemin correspond à un **motif** (glob).
-
-**Pourquoi les utiliser :**
-
-- Un module C embarqué (MISRA, pas de `malloc`) n'a pas les mêmes règles qu'un outil CLI avec allocation libre.
-- Les tests (`tests/`) peuvent exiger des macros ou du style différent du code de production (`src/`).
-- Les headers publics (`include/`) et les implémentations (`src/`) peuvent demander des conventions distinctes (Doxygen, include guards, etc.).
-
-**Organisation recommandée (GitHub Copilot) :**
-
-Placer des fichiers Markdown dans `.github/instructions/`, chacun avec un en-tête YAML indiquant les chemins concernés :
+**Custom instructions:**
+Create a `.github/copilot-instructions.md` file at the project root to guide Copilot:
 
 ```markdown
----
-applyTo: "src/**/*.c,src/**/*.h"
----
+# Instructions for this C project
 
-# Règles pour le code source C
-
-- Standard C11, pas d'extensions GNU sauf si déjà présent dans le fichier
-- Vérifier systématiquement le retour de malloc/calloc/realloc
-- snake_case pour fonctions et variables ; préfixe module pour l'API publique
+- Use the C11 standard
+- Always check malloc return values (return NULL on failure)
+- Naming conventions: snake_case for functions and variables
+- Prefix public functions with the module name (e.g.: list_add, list_remove)
+- Document with Doxygen format
+- Error handling via return codes (0 = success, negative = error)
 ```
 
-```markdown
----
-applyTo: "tests/**/*.c"
----
-
-# Règles pour les tests
-
-- Utiliser uniquement assert() et des helpers déjà définis dans test_common.h
-- Pas de printf de debug : utiliser les macros TEST_LOG si besoin
-- Un fichier de test par module testé (test_parser.c pour parser.c)
-```
-
-```markdown
----
-applyTo: "exercices/**/*.c"
----
-
-# Contexte pédagogique — exercices étudiants
-
-- Leave exercise stubs intact ; ne pas implémenter à la place de l'étudiant
-- Suggérer des indices dans les commentaires plutôt que des solutions complètes
-- Rester aligné sur les énoncés du fichier (noms de fonctions imposés)
-```
-
-**Ordre de priorité (du plus général au plus spécifique) :**
-
-1. Instructions globales (`.github/copilot-instructions.md`)
-2. Instructions path-specific dont le glob correspond au fichier actif
-3. Contexte immédiat (fichier ouvert, sélection, commentaire-prompt)
-
-**Best practices :**
-
-- Préférer des globs **étroits** (`src/net/*.c`) à `**/*` pour éviter des règles contradictoires.
-- Documenter dans chaque fichier _pourquoi_ la règle existe (évite que Copilot la « contourne »).
-- Aligner les instructions path-specific avec la structure réelle du repo (`exercices/`, `correction/`, `tests/`).
-- Vérifier qu'une consigne globale n'annule pas une consigne locale (ex. « toujours compléter le code » vs exercises with stubs to complete).
-
-**Créer des Skills avancés :**
-
-- Placer des scripts dans `scripts/` (ex. wrapper Valgrind avec options du projet)
-- Externaliser la doc lourde dans `references/` pour préserver la fenêtre de contexte
-- Affiner la `description` YAML — c'est le **déclencheur** de sélection du skill
-
-## 5.3 Prompts réutilisables (`.github/prompts/`)
-
-Modèles de demande invoqués manuellement dans le chat (complément aux Skills — voir Module 4) :
+**Reusable prompt files (`.github/prompts/`):**
+Create saved prompts for recurring tasks:
 
 ```markdown
 <!-- .github/prompts/new-module.prompt.md -->
 
-Crée un nouveau module C avec :
+Create a new C module with:
 
-- Un fichier header (.h) avec include guards
-- Un fichier source (.c) avec implémentations
-- Fonctions init et cleanup du module
-- Documentation Doxygen pour chaque fonction publique
+- A header file (.h) with include guards
+- A source file (.c) with implementations
+- Module init and cleanup functions
+- Doxygen documentation for each public function
 ```
 
-## 5.4 Commit automatique
+## 5.2 Automatic commit
 
-Copilot peut générer automatiquement des messages de commit pertinents :
+Copilot can automatically generate relevant commit messages:
 
-- Cliquer sur l'icône Copilot dans la vue Source Control
-- Copilot analyse les changements (diff) et propose un message
-- Le message suit les conventions du projet (Conventional Commits si configuré)
+- Click the Copilot icon in the Source Control view
+- Copilot analyzes the changes (diff) and proposes a message
+- The message follows project conventions (Conventional Commits if configured)
 
-Exemple :
+Example:
 
 ```
 feat(parser): add CSV parsing with quoted field support
@@ -849,26 +720,36 @@ feat(parser): add CSV parsing with quoted field support
 - Add error reporting with line numbers
 ```
 
-## 5.5 Code review sur les commits en cours
+## 5.3 Code review on pending commits
 
-Copilot peut relire le code avant de commiter :
+Copilot can review code before committing:
 
-- Dans l'onglet Source Control, utiliser "Review Changes" avec Copilot
-- Il identifie : bugs potentiels, fuites mémoire, problèmes de style, suggestions d'amélioration
-- Particulièrement utile en C pour détecter :
- - Accès hors limites de tableaux
- - Pointeurs non initialisés
- - Double free / use after free
- - Buffer overflows
+- In the Source Control tab, use "Review Changes" with Copilot
+- It identifies: potential bugs, memory leaks, style issues, improvement suggestions
+- Particularly useful in C for detecting:
+  - Out-of-bounds array access
+  - Uninitialized pointers
+  - Double free / use after free
+  - Buffer overflows
 
-## 5.6 Fine tuning et personnalisation
+## 5.4 Fine tuning and customization
 
-**Adapter Copilot au style du projet :**
+**Adapt Copilot to the project style:**
 
-- Les **Instructions** (Module 4) influencent toutes les suggestions — inline, chat et agent
-- Les **Skills** standardisent les workflows répétitifs (audit mémoire, création de module)
-- Copilot apprend aussi des patterns du code existant dans le dépôt
-- Utiliser des fichiers d'exemple comme « modèles » que Copilot reproduira
+- `.github/copilot-instructions.md` files influence all suggestions
+- Copilot learns from existing code in the project (patterns propagate)
+- Use example files as "templates" that Copilot will reproduce
+
+**Exclude files from indexing:**
+In `.gitattributes`:
+
+```
+# Do not use these files as context for Copilot
+vendor/** linguist-generated
+generated/** linguist-generated
+```
+
+---
 
 ---
 
@@ -889,37 +770,37 @@ In [module 5](/formations/en-github-copilot-c/module-05-path-specific-review) we
 
 ---
 
-## 6.1 Validation du code généré
+## 6.1 Validating generated code
 
-Le code produit par Copilot en C nécessite une vigilance particulière :
+Code produced by Copilot in C requires particular vigilance:
 
-**Toujours vérifier :**
+**Always verify:**
 
-- La gestion mémoire (malloc/free, pas de fuites, pas de double free)
-- Les accès aux tableaux (pas de dépassement de bornes)
-- Les pointeurs (vérification de NULL avant déréférencement)
-- Les types et le casting (overflow d'entiers, troncature)
-- La gestion des erreurs (retours de fonctions système)
+- Memory management (malloc/free, no leaks, no double free)
+- Array access (no out-of-bounds)
+- Pointers (NULL check before dereferencing)
+- Types and casting (integer overflow, truncation)
+- Error handling (system function return values)
 
-**Outils de validation :**
+**Validation tools:**
 
 ```bash
-# Compilation avec warnings stricts
+# Compilation with strict warnings
 gcc -Wall -Wextra -Werror -fsanitize=address,undefined -g -o prog main.c
 
-# Analyse statique
+# Static analysis
 cppcheck --enable=all --inconclusive src/
 
-# Détection de fuites mémoire
+# Memory leak detection
 valgrind --leak-check=full --show-leak-kinds=all ./prog
 ```
 
-## 6.2 Quand utiliser Copilot
+## 6.2 When to use Copilot
 
-**Code répétitif ou boilerplate :**
+**Repetitive or boilerplate code:**
 
 ```c
-// Copilot excelle pour générer des fonctions CRUD similaires
+// Copilot excels at generating similar CRUD functions
 Employee *employee_create(const char *name, int age, float salary);
 void employee_destroy(Employee *emp);
 void employee_print(const Employee *emp);
@@ -927,67 +808,69 @@ int employee_serialize(const Employee *emp, FILE *out);
 Employee *employee_deserialize(FILE *in);
 ```
 
-**Implémentation d'algorithmes classiques :**
-Tri, recherche, parcours de graphe, tables de hachage — Copilot connaît les implémentations standards.
+**Classic algorithm implementation:**
+Sorting, searching, graph traversal, hash tables — Copilot knows the standard implementations.
 
-**Tests unitaires :**
+**Documentation and comments:**
+Use `/doc` to generate Doxygen documentation for existing functions.
+
+**Unit tests:**
 
 ```c
-// Demander à Copilot : "Génère les tests pour la fonction binary_search"
-// Il produit des cas de test pertinents :
+// Ask Copilot: "Generate tests for the binary_search function"
+// It produces relevant test cases:
 void test_binary_search_found(void) {
- int arr[] = {1, 3, 5, 7, 9, 11};
- assert(binary_search(arr, 6, 7) == 3);
+    int arr[] = {1, 3, 5, 7, 9, 11};
+    assert(binary_search(arr, 6, 7) == 3);
 }
 
 void test_binary_search_not_found(void) {
- int arr[] = {1, 3, 5, 7, 9, 11};
- assert(binary_search(arr, 6, 4) == -1);
+    int arr[] = {1, 3, 5, 7, 9, 11};
+    assert(binary_search(arr, 6, 4) == -1);
 }
 
 void test_binary_search_empty(void) {
- int arr[] = {};
- assert(binary_search(arr, 0, 5) == -1);
+    int arr[] = {};
+    assert(binary_search(arr, 0, 5) == -1);
 }
 ```
 
-**Exploration de nouvelles APIs :**
-Quand on utilise une bibliothèque peu familière (libcurl, OpenSSL, SQLite), Copilot aide à écrire le boilerplate d'initialisation.
+**Exploring new APIs:**
+When using an unfamiliar library (libcurl, OpenSSL, SQLite), Copilot helps write the initialization boilerplate.
 
-## 6.3 Quand être prudent
+## 6.3 When to be cautious
 
-**Code critique pour la sécurité :**
-Cryptographie, authentification, parsing d'entrées utilisateur — toujours relire manuellement et tester en profondeur.
+**Security-critical code:**
+Cryptography, authentication, user input parsing — always manually review and test thoroughly.
 
-**Logique métier complexe :**
-Les règles métier spécifiques au projet ne sont pas connues de Copilot. Il peut générer du code syntaxiquement correct mais sémantiquement faux.
+**Complex business logic:**
+Project-specific business rules are not known to Copilot. It may generate syntactically correct but semantically wrong code.
 
-**Code avec des contraintes spécifiques :**
-Systèmes embarqués avec mémoire limitée, code temps réel, conformité à des normes (MISRA C, DO-178C) — Copilot ne connaît pas ces contraintes.
+**Code with specific constraints:**
+Embedded systems with limited memory, real-time code, compliance with standards (MISRA C, DO-178C) — Copilot is unaware of these constraints.
 
-**Optimisations de performance critiques :**
-Copilot génère du code fonctionnel mais rarement optimal. Pour du code critique en performance (boucles internes, SIMD, cache-friendly), l'expertise humaine reste indispensable.
+**Critical performance optimizations:**
+Copilot generates functional but rarely optimal code. For performance-critical code (inner loops, SIMD, cache-friendly), human expertise remains indispensable.
 
-## 6.4 Productivité optimale
+## 6.4 Optimal productivity
 
-**Utiliser Copilot comme assistant, pas comme remplacement :**
+**Use Copilot as an assistant, not a replacement:**
 
-- Lire et comprendre chaque suggestion avant de l'accepter
-- Ne jamais accepter aveuglément du code qu'on ne comprend pas
-- Copilot accélère l'écriture, il ne dispense pas de la réflexion
+- Read and understand each suggestion before accepting it
+- Never blindly accept code you don't understand
+- Copilot accelerates writing, it doesn't exempt you from thinking
 
-**Apprendre des suggestions pour s'améliorer :**
+**Learn from suggestions to improve:**
 
-- Copilot peut montrer des patterns ou des fonctions de la bibliothèque standard qu'on ne connaît pas
-- Observer les suggestions est une forme d'apprentissage passif
-- Exemple : découvrir `qsort`, `bsearch`, `srtok_rt` via les suggestions
+- Copilot can show patterns or standard library functions you don't know
+- Observing suggestions is a form of passive learning
+- Example: discovering `qsort`, `bsearch`, `strtok_r` through suggestions
 
-**Adapter son workflow progressivement :**
+**Adapt your workflow progressively:**
 
-1. **Completions inline** — accepter les suggestions pour le boilerplate (Module 2)
-2. **Chat Ask/Edit** — debugging et documentation ciblée (Module 3)
-3. **Instructions** — créer `.github/copilot-instructions.md` (Module 4)
-4. **Skills** — documenter un workflow récurrent (Module 5)
-5. **Mode Agent** — tâches multi-fichiers avec vérification manuelle du diff
+1. Start by accepting suggestions for boilerplate only
+2. Gradually use comment-prompts for entire functions
+3. Integrate Copilot Chat for debugging and documentation
+4. Use Agent mode for complex multi-file tasks
 
 ---

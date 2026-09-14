@@ -13,8 +13,8 @@
 ```c
 #include <time.h>
 
-time_t add_hours_to_date(time_t created_at, int priority_hours) {
- return created_at - (priority_hours * 3600); /* BUG */
+time_t calculate_sla_deadline(time_t created_at, int priority_hours) {
+    return created_at - (priority_hours * 3600); /* BUG */
 }
 ```
 

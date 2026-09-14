@@ -36,12 +36,12 @@ Chaque module comprend un **cours**, des **exercices** et une **correction**.
 
 ```mermaid
 flowchart LR
- A[Install] --> B[Inline]
- B --> C[Chat]
- C --> D[Instructions]
- D --> S[Skills]
- S --> E[Agent]
- E --> F[Review]
+    A[Install] --> B[Inline]
+    B --> C[Chat]
+    C --> D[Instructions]
+    D --> S[Skills]
+    S --> E[Agent]
+    E --> F[Review]
 ```
 
 **Prochaine étape :** [Module 1 — Introduction](/formations/fr-github-copilot-c/module-01-introduction)
@@ -87,12 +87,12 @@ GitHub Copilot est un assistant de programmation basé sur l'intelligence artifi
 
 GitHub Copilot propose plusieurs **niveaux d'autonomie**. La formation s'articule autour du mode **Agent** et de sa personnalisation (**Instructions**, **Skills**), tout en conservant les **completions inline** pour l'écriture au fil de l'eau.
 
-| Version | Niveau d'autonomie | Description | Usage principal |
+| Version              | Niveau d'autonomie | Description                                    | Usage principal                         |
 | -------------------- | ------------------ | ---------------------------------------------- | --------------------------------------- |
-| **Copilot (inline)** | Faible | Suggestions de code directement dans l'éditeur | Complétion au quotidien, boilerplate |
-| **Copilot Chat** | Moyen | Conversation (Ask, Edit, Plan) | Questions, explications, refactoring |
-| **Mode Agent** | Élevé | Planifie, modifie plusieurs fichiers, exécute | Tâches multi-fichiers, debug, migration |
-| **Copilot CLI** | Élevé | Agent en ligne de commande | Shell, compilation, CI, scripts |
+| **Copilot (inline)** | Faible             | Suggestions de code directement dans l'éditeur | Complétion au quotidien, boilerplate    |
+| **Copilot Chat**     | Moyen              | Conversation (Ask, Edit, Plan)                 | Questions, explications, refactoring    |
+| **Mode Agent**       | Élevé              | Planifie, modifie plusieurs fichiers, exécute  | Tâches multi-fichiers, debug, migration |
+| **Copilot CLI**      | Élevé              | Agent en ligne de commande                     | Shell, compilation, CI, scripts         |
 
 **Copilot inline** reste le point d'entrée : dès qu'on tape du code, des suggestions apparaissent en gris (`Tab` pour accepter). Voir le **Module 2**.
 
@@ -166,15 +166,15 @@ Les **completions inline** sont le mode le plus utilisé au quotidien. Une fois 
 
 ## 2.1 Raccourcis clavier essentiels
 
-| Action | Raccourci (Windows/Linux) | Raccourci (Mac) |
+| Action                           | Raccourci (Windows/Linux) | Raccourci (Mac) |
 | -------------------------------- | ------------------------- | --------------- |
-| Accepter la suggestion | `Tab` | `Tab` |
-| Rejeter la suggestion | `Échap` | `Échap` |
-| Suggestion suivante | `Alt + ]` | `Option + ]` |
-| Suggestion précédente | `Alt + [` | `Option + [` |
-| Accepter le mot suivant | `Ctrl + →` | `Cmd + →` |
-| Déclencher manuellement | `Alt + \` | `Option + \` |
-| Ouvrir le panneau de suggestions | `Ctrl + Enter` | `Ctrl + Enter` |
+| Accepter la suggestion           | `Tab`                     | `Tab`           |
+| Rejeter la suggestion            | `Échap`                   | `Échap`         |
+| Suggestion suivante              | `Alt + ]`                 | `Option + ]`    |
+| Suggestion précédente            | `Alt + [`                 | `Option + [`    |
+| Accepter le mot suivant          | `Ctrl + →`                | `Cmd + →`       |
+| Déclencher manuellement          | `Alt + \`                 | `Option + \`    |
+| Ouvrir le panneau de suggestions | `Ctrl + Enter`            | `Ctrl + Enter`  |
 
 Le panneau de suggestions (`Ctrl + Enter`) ouvre une fenêtre avec jusqu'à 10 suggestions alternatives. Utile quand la première suggestion ne convient pas.
 
@@ -201,9 +201,9 @@ Le commentaire guide Copilot sur l'algorithme attendu.
 
 ```c
 typedef struct {
- char name[50];
- int age;
- float salary;
+    char name[50];
+    int age;
+    float salary;
 } Employee;
 ```
 
@@ -229,9 +229,9 @@ Si vous avez un fichier `utils.h` ouvert avec des prototypes, Copilot les utilis
 **Les includes influencent les suggestions :**
 
 ```c
-#include <pthread.h> // Copilot va suggérer du code multithread
-#include <sys/socket.h> // Copilot va suggérer du code réseau
-#include <sqlite3.h> // Copilot va suggérer du code base de données
+#include <pthread.h>  // Copilot va suggérer du code multithread
+#include <sys/socket.h>  // Copilot va suggérer du code réseau
+#include <sqlite3.h>  // Copilot va suggérer du code base de données
 ```
 
 **Le code environnant guide la génération :**
@@ -241,8 +241,8 @@ Si les fonctions précédentes utilisent un style particulier (gestion d'erreurs
 // Si votre code existant fait ceci :
 int *ptr = malloc(sizeof(int) * n);
 if (ptr == NULL) {
- fprintf(stderr, "Erreur allocation mémoire\n");
- return -1;
+    fprintf(stderr, "Erreur allocation mémoire\n");
+    return -1;
 }
 
 // Copilot va reproduire ce pattern de vérification dans les suggestions suivantes
@@ -260,12 +260,12 @@ La **fenêtre de contexte** (ou _context window_) est la quantité maximale de t
 
 **Pourquoi c'est important :**
 
-| Conséquence | Explication |
+| Conséquence                       | Explication                                                                                                                                         |
 | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Perte de contexte** | Un gros fichier + tout l'historique du chat peuvent faire « oublier » le début de la conversation ou des fichiers éloignés. |
-| **Suggestions moins cohérentes** | Si vos conventions (nommage, gestion d'erreurs) ne tiennent plus dans la fenêtre, Copilot revient à des patterns génériques appris sur tout GitHub. |
-| **Réponses incomplètes en Agent** | Sur un gros dépôt, l'agent ne charge pas tout le code d'un coup ; il doit cibler les bons fichiers. |
-| **Coût de qualité du prompt** | Chaque mot utile (commentaire précis, prototype dans le `.h`) remplace du bruit ; un contexte pertinent vaut mieux qu'un contexte volumineux. |
+| **Perte de contexte**             | Un gros fichier + tout l'historique du chat peuvent faire « oublier » le début de la conversation ou des fichiers éloignés.                         |
+| **Suggestions moins cohérentes**  | Si vos conventions (nommage, gestion d'erreurs) ne tiennent plus dans la fenêtre, Copilot revient à des patterns génériques appris sur tout GitHub. |
+| **Réponses incomplètes en Agent** | Sur un gros dépôt, l'agent ne charge pas tout le code d'un coup ; il doit cibler les bons fichiers.                                                 |
+| **Coût de qualité du prompt**     | Chaque mot utile (commentaire précis, prototype dans le `.h`) remplace du bruit ; un contexte pertinent vaut mieux qu'un contexte volumineux.       |
 
 **Bonnes pratiques pour optimiser la fenêtre :**
 
@@ -344,9 +344,9 @@ Un prompt efficace pour Copilot suit la structure **Quoi / Comment / Contraintes
  * QUOI : Recherche un élément dans un tableau trié
  * COMMENT : Utilise la recherche dichotomique (binary search)
  * CONTRAINTES :
- * - Le tableau doit être trié en ordre croissant
- * - Retourne l'index de l'élément ou -1 si non trouvé
- * - Fonctionne pour des tableaux jusqu'à INT_MAX éléments
+ *   - Le tableau doit être trié en ordre croissant
+ *   - Retourne l'index de l'élément ou -1 si non trouvé
+ *   - Fonctionne pour des tableaux jusqu'à INT_MAX éléments
  */
 int binary_search(const int arr[], int size, int target)
 ```
@@ -358,9 +358,9 @@ Autre exemple avec gestion mémoire :
  * QUOI : Crée une copie profonde d'une liste chaînée
  * COMMENT : Parcours itératif avec allocation de nouveaux nœuds
  * CONTRAINTES :
- * - Retourne NULL si la liste source est NULL ou en cas d'erreur malloc
- * - L'appelant est responsable de libérer la copie avec free_list()
- * - Les données (char*) sont dupliquées avec strdup
+ *   - Retourne NULL si la liste source est NULL ou en cas d'erreur malloc
+ *   - L'appelant est responsable de libérer la copie avec free_list()
+ *   - Les données (char*) sont dupliquées avec strdup
  */
 Node *deep_copy_list(const Node *head)
 ```
@@ -411,12 +411,12 @@ Après les [completions inline](/formations/fr-github-copilot-c/module-02-comple
 
 Copilot Chat propose plusieurs **modes** selon le niveau d'autonomie souhaité. Ils partagent les **Instructions** du projet ; seuls **Agent** et partiellement **Ask** exploitent les **Skills** (voir Module 4).
 
-| Mode | Autonomie | Comportement | Exemple en C |
+| Mode       | Autonomie | Comportement                                      | Exemple en C                                      |
 | ---------- | --------- | ------------------------------------------------- | ------------------------------------------------- |
-| **Ask** | Faible | Répond, explique, ne modifie pas les fichiers | « Explique cette gestion de free list » |
-| **Edit** | Moyenne | Modifie le code sélectionné ou le fichier actif | « Ajoute la vérification NULL sur ce malloc » |
-| **Plan** | Moyenne | Produit un plan détaillé avant d'agir | « Plan pour migrer ce module vers C11 _Generic » |
-| **Agent** | Élevée | Planifie, édite, exécute, itère | « Corrige les warnings -Wall sur tout src/ » |
+| **Ask**    | Faible    | Répond, explique, ne modifie pas les fichiers     | « Explique cette gestion de free list »           |
+| **Edit**   | Moyenne   | Modifie le code sélectionné ou le fichier actif | « Ajoute la vérification NULL sur ce malloc »     |
+| **Plan**   | Moyenne   | Produit un plan détaillé avant d'agir             | « Plan pour migrer ce module vers C11 _Generic »  |
+| **Agent**  | Élevée    | Planifie, édite, exécute, itère                  | « Corrige les warnings -Wall sur tout src/ »    |
 
 **Ask** — mode par défaut pour comprendre du code sans risque de modification :
 
@@ -461,14 +461,14 @@ Sélectionner un bloc de code complexe puis demander dans le chat :
 
 Les commandes slash sont des raccourcis pour des actions fréquentes :
 
-| Commande | Action |
+| Commande   | Action                                              |
 | ---------- | --------------------------------------------------- |
-| `/explain` | Explique le code sélectionné |
-| `/fix` | Propose une correction pour le code sélectionné |
-| `/tests` | Génère des tests pour le code sélectionné |
-| `/doc` | Génère la documentation (commentaires Doxygen en C) |
-| `/new` | Crée un nouveau fichier/projet |
-| `/clear` | Efface l'historique du chat |
+| `/explain` | Explique le code sélectionné                        |
+| `/fix`     | Propose une correction pour le code sélectionné     |
+| `/tests`   | Génère des tests pour le code sélectionné           |
+| `/doc`     | Génère la documentation (commentaires Doxygen en C) |
+| `/new`     | Crée un nouveau fichier/projet                      |
+| `/clear`   | Efface l'historique du chat                         |
 
 **Exemple avec `/doc` sur une fonction C :**
 
@@ -504,11 +504,11 @@ L'**indexation sémantique** (ou _semantic codebase indexing_) permet à Copilot
 
 **Différence avec le contexte « classique » :**
 
-| Approche | Limite |
+| Approche                          | Limite                                                                                           |
 | --------------------------------- | ------------------------------------------------------------------------------------------------ |
-| Fichiers ouverts + ligne courante | Ne couvre que ce que vous avez sous les yeux |
-| Recherche par nom de symbole | Rate les implémentations sous un autre nom ou les patterns répétés |
-| **Index sémantique** | Retrouve du code par **intention** (« parsing CSV », « free list », « gestion d'erreur malloc ») |
+| Fichiers ouverts + ligne courante | Ne couvre que ce que vous avez sous les yeux                                                     |
+| Recherche par nom de symbole      | Rate les implémentations sous un autre nom ou les patterns répétés                               |
+| **Index sémantique**              | Retrouve du code par **intention** (« parsing CSV », « free list », « gestion d'erreur malloc ») |
 
 **Quand l'utiliser :**
 
@@ -637,9 +637,9 @@ Fichier à la racine du dépôt (dossier `.github/`). Copilot l'injecte dans **t
 ```
 .github/skills/
 └── lint-and-check/
- ├── SKILL.md
- ├── scripts/
- └── references/
+    ├── SKILL.md
+    ├── scripts/
+    └── references/
 ```
 
 **Exemple `SKILL.md` :**
@@ -794,7 +794,7 @@ applyTo: "exercices/**/*.c"
 
 # Contexte pédagogique — exercices étudiants
 
-- Laisser les zones à compléter intactes ; ne pas implémenter à la place de l'étudiant
+- Laisser les blocs TODO intacts ; ne pas implémenter à la place de l'étudiant
 - Suggérer des indices dans les commentaires plutôt que des solutions complètes
 - Rester aligné sur les énoncés du fichier (noms de fonctions imposés)
 ```
@@ -810,7 +810,7 @@ applyTo: "exercices/**/*.c"
 - Préférer des globs **étroits** (`src/net/*.c`) à `**/*` pour éviter des règles contradictoires.
 - Documenter dans chaque fichier _pourquoi_ la règle existe (évite que Copilot la « contourne »).
 - Aligner les instructions path-specific avec la structure réelle du repo (`exercices/`, `correction/`, `tests/`).
-- Vérifier qu'une consigne globale n'annule pas une consigne locale (ex. « toujours compléter le code » vs exercices avec zones à compléter).
+- Vérifier qu'une consigne globale n'annule pas une consigne locale (ex. « toujours compléter le code » vs exercices avec TODO).
 
 **Créer des Skills avancés :**
 
@@ -858,10 +858,10 @@ Copilot peut relire le code avant de commiter :
 - Dans l'onglet Source Control, utiliser "Review Changes" avec Copilot
 - Il identifie : bugs potentiels, fuites mémoire, problèmes de style, suggestions d'amélioration
 - Particulièrement utile en C pour détecter :
- - Accès hors limites de tableaux
- - Pointeurs non initialisés
- - Double free / use after free
- - Buffer overflows
+  - Accès hors limites de tableaux
+  - Pointeurs non initialisés
+  - Double free / use after free
+  - Buffer overflows
 
 ## 5.6 Fine tuning et personnalisation
 
@@ -938,18 +938,18 @@ Tri, recherche, parcours de graphe, tables de hachage — Copilot connaît les i
 // Demander à Copilot : "Génère les tests pour la fonction binary_search"
 // Il produit des cas de test pertinents :
 void test_binary_search_found(void) {
- int arr[] = {1, 3, 5, 7, 9, 11};
- assert(binary_search(arr, 6, 7) == 3);
+    int arr[] = {1, 3, 5, 7, 9, 11};
+    assert(binary_search(arr, 6, 7) == 3);
 }
 
 void test_binary_search_not_found(void) {
- int arr[] = {1, 3, 5, 7, 9, 11};
- assert(binary_search(arr, 6, 4) == -1);
+    int arr[] = {1, 3, 5, 7, 9, 11};
+    assert(binary_search(arr, 6, 4) == -1);
 }
 
 void test_binary_search_empty(void) {
- int arr[] = {};
- assert(binary_search(arr, 0, 5) == -1);
+    int arr[] = {};
+    assert(binary_search(arr, 0, 5) == -1);
 }
 ```
 

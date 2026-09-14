@@ -2,7 +2,7 @@
 
 > **Context** — Each developer must confirm Copilot works in **C** and produce a first utility function.
 
-## Exercice — Setup and first completion
+## Exercise — Setup and first completion
 
 **Topics :** sections 1.2 to 1.3 (Copilot versions, install, inline check).
 
@@ -26,4 +26,4 @@ char* format_id(int id);
 
 **Documentation :** [Set up Copilot](https://docs.github.com/copilot/how-tos/set-up/install-copilot-extension)
 
-> **Solution** : [Accéder à la correction](../correction/en/correction-01-introduction.md)
+> **Solution** : [View solution](../correction/en/correction-01-introduction.md)
