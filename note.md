@@ -1,0 +1,28 @@
+- agents
+	- Orchestrator
+		- Coordinate the other agents
+		- run sub agents
+		- make sure the project is finished and with a good quality at the end
+		- resolve conflicts between agents if necessary
+	- Software Architect
+		- Design the overall structure of the software
+		- Make high-level decisions about Design patterns and architecture
+		- Write Specifications for the software at destination of the developer
+	- Developer
+		- Implement the software according to the specifications
+		- Write code
+	- Tester
+		- Write unit tests
+		- make sure that the tests reflect the specifications and requirements of the software
+		- Report any discrepancies or issues found during testing
+ 
+- skills
+	- Run unit tests
+	- Execute unit tests
+	- Compile
+		- use clang
+ 
+- instructions
+	- prefix the functions with 'STM_'
+	- Clean Code
+	- Document the code only when necessary, no noisy comments
