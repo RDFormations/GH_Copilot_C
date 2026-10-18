@@ -1,34 +1,15 @@
-# GH Copilot — laboratoire C
+# Développer avec GitHub Copilot — C
 
-Formation GitHub Copilot adaptée au **C** : cours (FR + EN), exercices guidés et TP mini push_swap.
+Support de la formation et laboratoire.
 
-## Contenu
+| Dossier | Rôle |
+| ------- | ---- |
+| `Developper-avec-GitHub-Copilot.pdf` | Support donné en salle |
+| `cours/` | Même contenu, en Markdown |
+| `lab/01-demo-framework/` | Squelettes de la démonstration |
+| `lab/02-exercice-framework/` | Exercice : journal de factures |
+| `lab/03-exercice-skill/` | Exercice : skill slides |
 
-| Dossier | Description |
-| ------- | ----------- |
-| `Cours.md` / `Cours.pdf` | Support FR (6 modules) |
-| `CoursENG.md` / `CoursENG.pdf` | Course material EN |
-| `exercices/fr/` | Énoncés FR + fichiers `.c` |
-| `exercices/en/` | Exercise sheets EN + same `.c` stubs |
-| `correction/fr/` | Corrections FR |
-| `correction/en/` | Solutions EN |
-| `TP/fr/SUJET.md` | Énoncé TP (français) |
-| `TP/en/SUJET.md` | Lab assignment (English) |
+L'énoncé de l'exercice framework est dans `lab/02-exercice-framework/ENONCE.md`.
 
-## Exercices
-
-Fichiers code : `exercices/fr/*.c` (identiques dans `en/`).
-
-Énoncés :
-- Français : `exercices/fr/exercice-*.md`
-- English : `exercices/en/exercice-*.md`
-
-## TP push_swap
-
-Voir `TP/fr/SUJET.md` ou `TP/en/SUJET.md`.
-
-```bash
-cd TP
-./push_swap 5 2 8 1 4 | ./checker 5 2 8 1 4
-echo $?   # 0 = OK
-```
+La prompt à coller est dans `lab/03-exercice-skill/PROMPT.md`.

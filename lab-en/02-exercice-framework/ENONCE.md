@@ -1,0 +1,49 @@
+- Exercise — post the invoices to the journal
+  - Goal
+    - A day's export lists the invoices to post to the journal
+    - Posting the same invoice twice doubles the figure
+    - Create the algorithm in comments, then have completion write it
+  - Working file
+    - `exercise.c`, `exercise.py`, or `exercise.ts`
+    - It is empty. No signature is given
+  - Subject
+    - `factures.csv` has one `id,reference` line per invoice
+    - It holds fifteen invoices, from FAC-1042 to FAC-1056
+    - Read these lines into an array ended by an id -1
+    - Walk that array and post the invoice to the journal only if its id is not already there
+    - The journal is an in-memory array
+    - At the start, the journal already holds four invoices: FAC-1042, FAC-1043, FAC-1044, FAC-1045
+    - These four are also in the day's file
+  - Decomposition, before any body line
+    - One function per responsibility
+    - Two functions form a chain and only call: reading the CSV, and posting to the journal
+    - Reading does not count, does not allocate, and does not split a line itself
+    - Posting to the journal does not search the journal and does not add by itself
+  - Gestures, in each function
+    - Write the algorithm in comments, in the function, before the code
+    - Take the completion, one step at a time
+    - A single Ctrl+I, on the reference copy: limit it to the field size, without changing how the comma is split
+  - Forbidden
+    - Open the chat
+    - Ask the agent to write the functions
+    - Open the test file before you are done
+    - Install a package
+    - sqlite, pandas, a third-party csv module, python-pptx
+  - Allowed, to make it run
+    - The language library, already present
+    - C: stdio.h, stdlib.h, string.h
+    - Python: open and split, no import
+    - TypeScript: node:fs
+  - When the code looks finished
+    - Copy the whole test file for the language to the end of the working file
+    - C: `test.c`
+    - Python: `test.py`
+    - TypeScript: `test.ts`
+    - Run, from this folder
+      - `gcc -Wall -Wextra -o exercise exercise.c && ./exercise`
+      - `python3 exercise.py`
+      - `node --experimental-strip-types exercise.ts`
+  - The test prints ok when
+    - The journal ends with the fifteen invoices, from FAC-1042 to FAC-1056, in that order
+    - The four invoices already present appear only once
+    - The array read holds fifteen invoices and ends with an id -1

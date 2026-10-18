@@ -1,0 +1,49 @@
+- Exercice — passer les factures au journal
+  - But
+    - Un export du jour liste les factures à passer au journal
+    - Passer deux fois la même facture double le chiffre
+    - Créer l'algorithme en commentaires, puis le faire écrire par la complétion
+  - Fichier de travail
+    - `exercice.c`, `exercice.py` ou `exercice.ts`
+    - Il est vide. Aucune signature n'est donnée
+  - Sujet
+    - `factures.csv` a une ligne `id,reference` par facture
+    - Il contient quinze factures, de FAC-1042 à FAC-1056
+    - Lire ces lignes dans un tableau terminé par un id -1
+    - Parcourir ce tableau et passer la facture au journal seulement si son id n'y est pas
+    - Le journal est un tableau en mémoire
+    - Au départ, le journal contient déjà quatre factures : FAC-1042, FAC-1043, FAC-1044, FAC-1045
+    - Ces quatre sont aussi dans le fichier du jour
+  - Découpe, avant toute ligne de corps
+    - Une fonction par responsabilité
+    - Deux fonctions enchaînent et ne font qu'appeler : la lecture du CSV, et le passage au journal
+    - La lecture ne compte pas, n'alloue pas et ne découpe pas une ligne elle-même
+    - Le passage au journal ne cherche pas dans le journal et n'ajoute pas lui-même
+  - Gestes, dans chaque fonction
+    - Écrire l'algorithme en commentaires, dans la fonction, avant le code
+    - Prendre la complétion, une étape à la fois
+    - Un seul Ctrl+I, sur la copie de la référence : borner à la taille du champ, sans changer la découpe de la virgule
+  - Interdit
+    - Ouvrir le chat
+    - Demander à l'agent d'écrire les fonctions
+    - Ouvrir le fichier test avant d'avoir fini
+    - Installer un paquet
+    - sqlite, pandas, un module csv tiers, python-pptx
+  - Autorisé pour faire tourner
+    - La bibliothèque du langage, déjà présente
+    - C : stdio.h, stdlib.h, string.h
+    - Python : open et split, aucun import
+    - TypeScript : node:fs
+  - Quand le code semble fini
+    - Copier tout le contenu du fichier test du langage à la fin du fichier de travail
+    - C : `test.c`
+    - Python : `test.py`
+    - TypeScript : `test.ts`
+    - Lancer, depuis ce dossier
+      - `gcc -Wall -Wextra -o exercice exercice.c && ./exercice`
+      - `python3 exercice.py`
+      - `node --experimental-strip-types exercice.ts`
+  - Le test affiche ok quand
+    - Le journal finit avec les quinze factures, de FAC-1042 à FAC-1056, dans cet ordre
+    - Les quatre factures déjà présentes n'apparaissent qu'une fois
+    - Le tableau lu contient quinze factures et se termine par un id -1
