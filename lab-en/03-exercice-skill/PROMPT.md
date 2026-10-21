@@ -36,7 +36,11 @@ A series over time becomes a line chart. Shares of a total become a pie chart. C
 
 Text that is not a number goes into the placeholders of the chosen layout. No text box placed beside them.
 
-Content is generated as JSON. No YAML. No Markdown. The script reads only that JSON. It does not rebuild the slides from free text.
+Content is generated as JSON. No YAML. No Markdown.
+
+`scripts/build_deck.py` is written once, while the skill is created. It takes that JSON and turns it directly into a PPTX. Titles and numbers come from the JSON. They are not hardcoded in the script.
+
+The agent that later uses the skill does not recreate a script. It writes a new JSON. It runs the same `build_deck.py`. It does not rewrite it. It does not edit it to change the presentation. `SKILL.md` forbids that.
 
 Put the skill here, and only here:
 
@@ -44,7 +48,7 @@ Put the skill here, and only here:
 .github/skills/st-slides/
 ├── SKILL.md
 ├── assets/                  # the ST template and the layout library, copied
-├── scripts/build_deck.py    # the only pptx generator
+├── scripts/build_deck.py    # written once: JSON to PPTX, reused as-is
 ├── examples/brief.json      # the proof content, as JSON
 └── requirements.txt
 ```
@@ -63,12 +67,12 @@ description: >
 
 The body of `SKILL.md` tells the agent, for each slides request:
 
-1. Write the content as JSON.
-2. Choose a real layout from the layout library for each slide.
-3. Run `python scripts/build_deck.py`. Do not write the PPTX by hand, nor in XML, nor in the chat.
+1. Write only a content JSON. Do not write Python.
+2. Do not create another script. Do not modify `scripts/build_deck.py`.
+3. Run the script that is already there: `python scripts/build_deck.py`. Do not write the PPTX by hand, nor in XML, nor in the chat.
 4. If the JSON has `series` or `parts`, the slide contains a chart in the body area. Those numbers are not bullets.
 
-The Python script is the only place that builds the file. It uses `python-pptx`. It opens the ST template as the base. It does not start from an empty presentation. It does not drive PowerPoint through COM.
+The Python script is the only place that builds the file. It uses `python-pptx`. It opens the ST template as the base. It does not start from an empty presentation. It does not drive PowerPoint through COM. It walks the slides in the JSON. Another JSON, with other titles and other numbers, goes through the same script without editing it.
 
 Script contract:
 

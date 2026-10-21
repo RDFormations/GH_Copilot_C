@@ -36,7 +36,11 @@ Une série dans le temps devient une courbe. Des parts d'un total deviennent un 
 
 Le texte hors chiffres va dans les placeholders du layout choisi. Pas de zone de texte posée à côté.
 
-Le contenu se génère en JSON. Pas de YAML. Pas de Markdown. Le script ne lit que ce JSON. Il ne reconstruit pas les slides depuis du texte libre.
+Le contenu se génère en JSON. Pas de YAML. Pas de Markdown.
+
+`scripts/build_deck.py` est écrit une seule fois, pendant la création du skill. Il prend ce JSON et le transforme directement en PPTX. Les textes et les chiffres viennent du JSON. Ils ne sont pas écrits en dur dans le script.
+
+L'agent qui utilisera le skill ensuite ne recrée pas de script. Il écrit un nouveau JSON. Il relance le même `build_deck.py`. Il ne le réécrit pas. Il ne le modifie pas pour changer de présentation. `SKILL.md` l'interdit.
 
 Range le skill ici, et seulement ici :
 
@@ -44,7 +48,7 @@ Range le skill ici, et seulement ici :
 .github/skills/st-slides/
 ├── SKILL.md
 ├── assets/                  # le template ST et la layout library, copiés
-├── scripts/build_deck.py    # le seul générateur de pptx
+├── scripts/build_deck.py    # écrit une fois : JSON vers PPTX, réutilisé tel quel
 ├── examples/brief.json      # le contenu de preuve, en JSON
 └── requirements.txt
 ```
@@ -62,12 +66,12 @@ description: >
 
 Le corps de `SKILL.md` dit à l'agent, pour chaque demande de slides :
 
-1. Écrire le contenu en JSON.
-2. Choisir un layout réel de la layout library pour chaque slide.
-3. Lancer `python scripts/build_deck.py`. Ne pas écrire le PPTX à la main, ni en XML, ni dans le chat.
+1. Écrire seulement un JSON de contenu. Ne pas écrire de Python.
+2. Ne pas créer un autre script. Ne pas modifier `scripts/build_deck.py`.
+3. Lancer le script déjà présent : `python scripts/build_deck.py`. Ne pas écrire le PPTX à la main, ni en XML, ni dans le chat.
 4. Si le JSON a `series` ou `parts`, la slide contient un graphique dans la zone de corps. Ces nombres ne sont pas des puces.
 
-Le script Python est le seul endroit qui construit le fichier. Il utilise `python-pptx`. Il ouvre le template ST comme base. Il ne part pas d'une présentation vide. Il ne pilote pas PowerPoint par COM.
+Le script Python est le seul endroit qui construit le fichier. Il utilise `python-pptx`. Il ouvre le template ST comme base. Il ne part pas d'une présentation vide. Il ne pilote pas PowerPoint par COM. Il parcourt les slides du JSON. Un autre JSON, avec d'autres titres et d'autres chiffres, passe par le même script sans le modifier.
 
 Contrat du script :
 
