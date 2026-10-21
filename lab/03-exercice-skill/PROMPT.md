@@ -2,7 +2,7 @@
   - But
     - Coller la prompt ci-dessous dans le chat de l'agent
     - Joindre en même temps les deux fichiers : le template PowerPoint ST, et la layout library
-    - L'agent écrit le skill. Les stagiaires ne l'écrivent pas à la main
+    - L'agent écrit le skill de bout en bout. Il ne s'arrête pas pour poser une question
   - Ce que cet exercice n'est pas
     - On ne demande pas à l'agent d'écrire l'import des employés ni le passage des factures au journal
     - La prompt ne contient pas le skill. Elle le fait produire
@@ -12,16 +12,31 @@
 
 ---
 
-Crée un skill Copilot qui produit des présentations PowerPoint ST. Écris le skill. Ne te contente pas de le décrire.
+Crée le skill Copilot `st-slides`. Écris-le. Exécute-le. Corrige-le jusqu'à la preuve. Tu travailles seul, de bout en bout. Tu ne poses aucune question. Tu ne t'arrêtes pas pour demander un choix.
 
-Les deux fichiers joints à ce message sont les seules sources de la charte :
+Les deux fichiers joints sont la charte :
 
 - le template PowerPoint ST
 - la layout library
 
-Lis-les en entier avant de créer un fichier. La charte, c'est ce que ces deux fichiers disent : masters, layouts, couleurs, polices, logo, marges, tailles, et le rôle de chaque layout. N'invente aucune couleur, aucune police, aucun logo, aucune marge, aucun layout. Si un choix n'est pas dans ces fichiers, arrête-toi et demande. Ne prends pas une valeur par défaut.
+Lis-les en entier avant de créer un fichier. Copie-les dans le skill, sous `assets/`. La charte, c'est ce que ces deux fichiers disent : masters, layouts, couleurs, polices, logo, marges, tailles, et le rôle de chaque layout. N'invente aucune couleur, aucune police, aucun logo, aucune marge.
 
-Copie ces deux fichiers dans le skill, sous `assets/`, pour que le skill fonctionne encore quand la conversation sera finie.
+Chaque slide utilise un layout qui existe dans la layout library. Le script lit cette library. Il affiche, pour chaque slide, l'identifiant de layout choisi. Il refuse un identifiant absent de la library.
+
+Le template et la layout library ne contiennent pas de graphique. C'est normal. Ne cherche pas un layout de graphique. Ne t'arrête pas. Ne le signale pas comme un blocage. Un graphique n'est pas un layout.
+
+Pour une slide qui porte des nombres :
+
+1. Prends dans la layout library un layout qui a un titre et une zone de corps.
+2. Lis la position et la taille du placeholder de corps.
+3. Dessine le graphique avec `python-pptx` dans ce rectangle.
+4. Mets le titre dans le placeholder de titre.
+
+Une série dans le temps devient une courbe. Des parts d'un total deviennent un graphique en secteurs. Des catégories comparées deviennent des barres. Les couleurs du graphique viennent du template.
+
+Le texte hors chiffres va dans les placeholders du layout choisi. Pas de zone de texte posée à côté.
+
+Le contenu se génère en JSON. Pas de YAML. Pas de Markdown. Le script ne lit que ce JSON. Il ne reconstruit pas les slides depuis du texte libre.
 
 Range le skill ici, et seulement ici :
 
@@ -30,7 +45,7 @@ Range le skill ici, et seulement ici :
 ├── SKILL.md
 ├── assets/                  # le template ST et la layout library, copiés
 ├── scripts/build_deck.py    # le seul générateur de pptx
-├── examples/brief.yaml      # le brief de preuve ci-dessous, adapté aux vrais ids
+├── examples/brief.json      # le contenu de preuve, en JSON
 └── requirements.txt
 ```
 
@@ -40,17 +55,17 @@ Range le skill ici, et seulement ici :
 ---
 name: st-slides
 description: >
-  Produit un PPTX à la charte ST à partir d'un brief, via scripts/build_deck.py.
+  Produit un PPTX à la charte ST à partir d'un contenu JSON, via scripts/build_deck.py.
   Use when the user asks for slides, a deck, a PPTX, a PowerPoint, or a presentation.
 ---
 ```
 
 Le corps de `SKILL.md` dit à l'agent, pour chaque demande de slides :
 
-1. Lire le brief de l'utilisateur.
-2. Choisir un layout réel de la layout library pour chaque slide. Si aucun layout ne correspond, demander, ne pas en fabriquer un.
-3. Lancer `python scripts/build_deck.py` avec le brief, le template et la layout library. Ne pas écrire le PPTX à la main, ni en XML, ni dans le chat.
-4. Vérifier le fichier produit avant de répondre.
+1. Écrire le contenu en JSON.
+2. Choisir un layout réel de la layout library pour chaque slide.
+3. Lancer `python scripts/build_deck.py`. Ne pas écrire le PPTX à la main, ni en XML, ni dans le chat.
+4. Si le JSON a `series` ou `parts`, la slide contient un graphique dans la zone de corps. Ces nombres ne sont pas des puces.
 
 Le script Python est le seul endroit qui construit le fichier. Il utilise `python-pptx`. Il ouvre le template ST comme base. Il ne part pas d'une présentation vide. Il ne pilote pas PowerPoint par COM.
 
@@ -58,51 +73,53 @@ Contrat du script :
 
 ```text
 python scripts/build_deck.py \
-  --brief examples/brief.yaml \
+  --content examples/brief.json \
   --template assets/<template ST> \
   --layouts assets/<layout library> \
   --out examples/preuve.pptx
 ```
 
-Règles de rendu, à écrire dans le script et dans `SKILL.md` :
+JSON de preuve. Remplace les identifiants de layout par des identifiants lus dans la layout library. Garde les chiffres : ce sont eux qui deviennent des graphiques.
 
-- Chaque slide utilise un layout qui existe dans la layout library. Le script affiche, pour chaque slide, l'identifiant de layout choisi.
-- Toute valeur numérique du brief est dessinée comme un graphique : un compte, un montant, un pourcentage, une durée, une série. Le nombre n'est pas une puce, ni un tableau de chiffres, ni une phrase.
-- Une série dans le temps devient une courbe. Des parts d'un total deviennent un graphique en secteurs, ou un empilé si la library n'a que celui-là. Des catégories comparées deviennent des barres.
-- Le type de graphique et sa position viennent de la layout library. S'il n'existe aucun layout de graphique, arrête-toi et dis-le. Ne place pas un graphique en coordonnées inventées.
-- Le texte hors chiffres suit le layout choisi : titre, sous-titre, puces. Pas de zone de texte posée en dehors des emplacements du layout.
-- Les couleurs du graphique viennent du template. Ne pose pas une palette à la main.
-
-Brief de preuve. Les identifiants de layout de cet exemple sont fictifs : remplace-les par des identifiants lus dans la layout library. Garde les chiffres, ce sont eux qui doivent devenir des graphiques.
-
-```yaml
-title: Qualité du trimestre
-slides:
-  - intent: ouverture
-    title: Qualité du trimestre
-    subtitle: Démonstration du skill
-  - intent: serie-temporelle
-    title: Défauts ouverts
-    series:
-      - name: Critiques
-        points: { T1: 12, T2: 7, T3: 4 }
-      - name: Majeurs
-        points: { T1: 30, T2: 28, T3: 21 }
-  - intent: parts
-    title: Répartition des défauts au T3
-    parts: { Critiques: 4, Majeurs: 21, Mineurs: 15 }
-  - intent: cloture
-    title: Lecture
-    bullets:
-      - Les critiques baissent sur trois trimestres
-      - Les majeurs restent le premier volume
+```json
+{
+  "title": "Qualité du trimestre",
+  "slides": [
+    {
+      "intent": "ouverture",
+      "title": "Qualité du trimestre",
+      "subtitle": "Démonstration du skill"
+    },
+    {
+      "intent": "serie-temporelle",
+      "title": "Défauts ouverts",
+      "series": [
+        { "name": "Critiques", "points": { "T1": 12, "T2": 7, "T3": 4 } },
+        { "name": "Majeurs", "points": { "T1": 30, "T2": 28, "T3": 21 } }
+      ]
+    },
+    {
+      "intent": "parts",
+      "title": "Répartition des défauts au T3",
+      "parts": { "Critiques": 4, "Majeurs": 21, "Mineurs": 15 }
+    },
+    {
+      "intent": "cloture",
+      "title": "Lecture",
+      "bullets": [
+        "Les critiques baissent sur trois trimestres",
+        "Les majeurs restent le premier volume"
+      ]
+    }
+  ]
+}
 ```
 
-Avant de terminer, exécute le script sur ce brief et ne réponds que si les quatre points sont vrais :
+Avant de terminer, exécute le script sur ce JSON. Ne réponds que si les quatre points sont vrais :
 
 - `examples/preuve.pptx` existe et s'ouvre avec `python-pptx`
-- le nombre de slides est égal au nombre d'entrées du brief
-- le pptx contient au moins deux graphiques, un pour la série temporelle et un pour les parts
+- le nombre de slides est égal au nombre d'entrées du JSON
+- le pptx contient au moins deux graphiques : une courbe pour la série, un secteur pour les parts
 - aucun des nombres 12, 7, 4, 30, 28, 21, 15 n'apparaît comme texte seul dans une puce ou un titre
 
 Si un point échoue, corrige le script et relance. Ne déclare pas le skill prêt avant cette preuve.
